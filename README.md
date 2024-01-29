@@ -26,6 +26,13 @@ Clone deze repository en installeer de vereiste bibliotheken:
 - holoviews 1.18.1
 
 Run de applicatie, als het goed is wordt u direct naar de dashboard gebracht. 
+#
+### Applicatie
+![screenshot applicatie](app.png)
+![screenshot applicatie](app1.png)
+![screenshot applicatie](app2.png)
+![screenshot applicatie](app3.png)
+![screenshot applicatie](app4.png)
 
 #
 ### Dashboard interactie:
