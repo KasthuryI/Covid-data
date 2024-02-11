@@ -1,3 +1,9 @@
+"""COVID-19 DATADASHBOARD"""
+
+"""Auteur: Kasthury Inparajah"""
+
+"""Dit script bevat functies voor het analyseren en visualiseren van COVID-19 data van IC-patiënten."""
+
 #  LIBRARIES 
 import pandas as pd
 import numpy as np
@@ -16,6 +22,7 @@ from bokeh.plotting import figure
 
 
 ########################################################### COVID DATA ###################################################################
+
 covid_patient_data = 'Covid-data\covid_patienten_export.tsv'
 covid_measurement_data = 'Covid-data\covid_meetgegevens_export.tsv'
 
@@ -138,9 +145,12 @@ bmi_apache_data['GESLACHT'] = Data_patienten['GESLACHT']
 bmi_apache_data['GEWICHT'] = Data_patienten['GEWICHT']
 bmi_apache_data['LENGTE'] = Data_patienten['LENGTE']
 bmi_apache_data['APACHE_IV_SCORE'] = Data_patienten['APACHE_IV_SCORE']
+
 # BMI berekenen
 bmi_apache_data['BMI'] = bmi_apache_data['GEWICHT'] / ((bmi_apache_data['LENGTE'] / 100) ** 2)
+
 # Kleur toevoegen data mannen en vrouwen
+geslacht_dict = {'m': 'mannen', 'v': 'vrouwen'}
 bmi_apache_data['KLEUR'] = bmi_apache_data['GESLACHT'].map({'m': '#0004FF', 'v': '#FF007C'})
 
 
@@ -180,6 +190,17 @@ bmi_vrouwen = pn.indicators.Gauge(name='BMI vrouwen', value=gemiddelde_bmi_vrouw
 
 # pie chart geslacht patienten
 def generate_pie_chart(aantal_mannen, aantal_vrouwen):
+    """
+    Genereert een taartdiagram voor de verdeling van mannen en vrouwen op de IC.
+
+    Parameters:
+    - aantal_mannen (int): Het aantal mannen.
+    - aantal_vrouwen (int): Het aantal vrouwen.
+
+    Returns:
+    - plot (figure): Bokeh figuurobject met het taartdiagram.
+    """
+    
     # Data
     data = pd.Series([aantal_mannen, aantal_vrouwen], index=['Mannen', 'Vrouwen']).reset_index(name='value').rename(columns={'index': 'category'})
     data['angle'] = data['value']/data['value'].sum() * 2*pi
@@ -209,8 +230,20 @@ def generate_pie_chart(aantal_mannen, aantal_vrouwen):
 pie_chart = generate_pie_chart(aantal_mannen, aantal_vrouwen)
 
 
+
 # plot van gewichten maken
 def generate_plot_gewicht(gemiddelde_gewicht, gemiddeld_gewicht_mannen, gemiddeld_gewicht_vrouwen):
+    """
+    Genereert een staafdiagram voor het gemiddelde gewicht van patiënten, mannen en vrouwen.
+
+    Parameters:
+    - gemiddelde_gewicht (float): Het totale gemiddelde gewicht.
+    - gemiddeld_gewicht_mannen (float): Het gemiddelde gewicht van mannen.
+    - gemiddeld_gewicht_vrouwen (float): Het gemiddelde gewicht van vrouwen.
+
+    Returns:
+    - plot (figure): Bokeh figuurobject met het staafdiagram.
+    """
     categories = ['TOTAAL GEMIDDELDE', 'MANNEN', 'VROUWEN']
     values = [gemiddelde_gewicht, gemiddeld_gewicht_mannen, gemiddeld_gewicht_vrouwen]
     source = ColumnDataSource(data=dict(categorie=categories, gewicht=values))
@@ -242,10 +275,19 @@ gewicht_plot = generate_plot_gewicht(gemiddelde_gewicht, gemiddeld_gewicht_manne
 
 
 # scatterplot van bmi en apache score maken
-def bmi_scatterplot(gender_bmi='BEIDEN'):
+def bmi_scatterplot(gender_bmi='Beiden'):
+    """
+    Genereert een scatterplot van BMI versus Apache IV Score.
+
+    Parameters:
+    - gender_bmi (str): Het geslacht om te visualiseren ('BEIDEN', 'm', 'v').
+
+    Returns:
+    - plot (figure): Bokeh figuurobject met het scatterplot.
+    """
     print(f"GESELECTEERDE GESLACHT: {gender_bmi}")
 
-    if gender_bmi == 'BEIDEN':
+    if gender_bmi == 'Beiden':
         data_bmi = bmi_apache_data
     else:
         data_bmi = bmi_apache_data[bmi_apache_data['GESLACHT'].str.lower() == gender_bmi.lower()]
@@ -275,11 +317,13 @@ def bmi_scatterplot(gender_bmi='BEIDEN'):
 
     return p
 
+
 # drop down om keuze te maken voor geslacht
-gender_dropdown = pn.widgets.Select(name='Selecteer geslacht', options=['BEIDEN', 'm', 'v'], value='BEIDEN')
+gender_dropdown = pn.widgets.Select(name='Selecteer geslacht', options=['Beiden', 'm', 'v'], value='Beiden')
 
 # pn.interact om scatterplot te updaten voor nieuwe keuze
 bmi_scatterplot_dynamic = pn.interact(bmi_scatterplot, gender_bmi=gender_dropdown)
+
 
 # GridSpec voor layout
 grid = pn.GridSpec(sizing_mode='stretch_both', max_width=900)

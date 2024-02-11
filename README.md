@@ -17,7 +17,12 @@ Deze repository bestaat uit:
 - EDA van de dataset (**EDA_COVID_DATA.ipynb**)
 #
 ### Gebruik:
-Clone deze repository en installeer de vereiste bibliotheken: 
+Stap 1. **Clone de repository:**
+Clone de repository door "git clone https://github.com/KasthuryI/Covid-data" in de terminal te typen.
+
+Stap 2. **Installeer benodigde libraries:**
+De benodigde libraries voor deze applicatie zijn:
+
 - pandas 2.2.0
 - numpy 1.23.5
 - panel 1.3.4
@@ -25,7 +30,17 @@ Clone deze repository en installeer de vereiste bibliotheken:
 - bokeh 3.3.2
 - holoviews 1.18.1
 
+Deze kunnen geïnstalleerd worden door in de terminal te typen:
+- "pip install pandas 2.2.0"
+- "pip install numpy 1.23.5"
+- "pip install panel 1.3.4"
+- "pip install matplotlib 3.6.2"
+- "pip install bokeh 3.3.2"
+- "pip install holoviews 1.18.1"
+
+Stap 3. **Run de applicatie**
 Run de applicatie, als het goed is wordt u direct naar de dashboard gebracht. 
+
 #
 ### Applicatie
 ![screenshot applicatie](app.png)
@@ -42,4 +57,4 @@ De grafieken kunnen gëeploreerd worden door te hoveren op de grafieken en in- e
 
 #
 ### Heeft u vragen of opmerkingen?
-Dan kunt u mailen naar k.inparajah@st.hanze.nl
+Dan kunt u mailen naar k.inparajah@st.hanze.nl.
