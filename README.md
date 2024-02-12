@@ -25,7 +25,7 @@ De benodigde libraries voor deze applicatie zijn:
 
 - pandas 2.2.0
 - numpy 1.23.5
-- panel 1.3.4
+- panel 1.3.8
 - matplotlib 3.6.2
 - bokeh 3.3.2
 - holoviews 1.18.1
@@ -33,7 +33,7 @@ De benodigde libraries voor deze applicatie zijn:
 Deze kunnen geïnstalleerd worden door in de terminal te typen:
 - "pip install pandas 2.2.0"
 - "pip install numpy 1.23.5"
-- "pip install panel 1.3.4"
+- "pip install panel 1.3.8"
 - "pip install matplotlib 3.6.2"
 - "pip install bokeh 3.3.2"
 - "pip install holoviews 1.18.1"

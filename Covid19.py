@@ -19,6 +19,7 @@ from bokeh.models import ColumnDataSource, HoverTool
 import holoviews as hv
 import holoviews.plotting.bokeh
 from bokeh.plotting import figure
+from panel.template import DarkTheme
 
 
 ########################################################### COVID DATA ###################################################################
@@ -157,21 +158,49 @@ bmi_apache_data['KLEUR'] = bmi_apache_data['GESLACHT'].map({'m': '#0004FF', 'v':
 ################################################### WIDGET VAN DATA MAKEN #################################################################
 
 # aantal mannen en vrouwen
-indicator_aantal_mannen = pn.indicators.Number(name='Aantal mannen', value=afgerond_percentage_mannen, format='{value}%')
-indicator_aantal_vrouwen = pn.indicators.Number(name='Aantal vrouwen', value=afgerond_percentage_vrouwen, format='{value}%')
+indicator_aantal_mannen = pn.Card(
+    pn.indicators.Number(name='Aantal mannen', value=afgerond_percentage_mannen, format='{value}%'),
+    styles={'background': '#1b1063'},
+    hide_header=True,
+    width=250
+)
+indicator_aantal_vrouwen = pn.Card(
+    pn.indicators.Number(name='Aantal vrouwen', value=afgerond_percentage_vrouwen, format='{value}%'),
+    styles={'background': '#1b1063'},
+    hide_header=True,
+    width=250
+)
 
 # gemiddelde leeftijd van mannen, vrouwen en allebei samen
-indicator_leeftijd = pn.indicators.Number(name='Gemiddelde leeftijd patienten', value=gemiddelde_leeftijd_patienten, format='{value} jaar')
-indicator_leeftijd_mannen = pn.indicators.Number(name='Gemiddelde leeftijd mannelijke patienten', value=gemiddelde_leeftijd_mannelijke_patienten, format='{value} jaar')
-indicator_leeftijd_vrouwen = pn.indicators.Number(name='Gemiddelde leeftijd vrouwelijke patienten', value=gemiddelde_leeftijd_vrouwelijke_patienten, format='{value} jaar')
+
+indicator_leeftijd = pn.Card(
+    pn.indicators.Number(name='Gemiddelde leeftijd patiënten', value=gemiddelde_leeftijd_patienten, format='{value} jaar'),
+    styles={'background': '#5c262f'},
+    hide_header=True,
+    width=300
+)
+
+indicator_leeftijd_mannen = pn.Card(
+    pn.indicators.Number(name='Gemiddelde leeftijd mannelijke patiënten', value=gemiddelde_leeftijd_mannelijke_patienten, format='{value} jaar'),
+    styles={'background': '#5c262f'},
+    hide_header=True,
+    width=300
+)
+
+indicator_leeftijd_vrouwen = pn.Card(
+    pn.indicators.Number(name='Gemiddelde leeftijd vrouwelijke patiënten', value=gemiddelde_leeftijd_vrouwelijke_patienten, format='{value} jaar'),
+    styles={'background': '#5c262f'},
+    hide_header=True,
+    width=300
+)
 
 # gemiddeld gewicht van mannen, vrouwen en allebei samen
-indicator_gewicht = pn.indicators.Number(name='Gemiddeld gewicht patienten', value=gemiddelde_gewicht, format='{value} KG')
+indicator_gewicht = pn.indicators.Number(name='Gemiddeld gewicht patiënten', value=gemiddelde_gewicht, format='{value} KG')
 indicator_gewicht_mannen = pn.indicators.Number(name='Gemiddeld gewicht mannen', value=gemiddeld_gewicht_mannen, format='{value} KG')
 indicator_gewicht_vrouwen = pn.indicators.Number(name='Gemiddeld gewicht vrouwen', value=gemiddeld_gewicht_vrouwen, format='{value} KG')
 
 # gemiddelde lengte van mannen, vrouwen en allebei samen
-indicator_lengte = pn.indicators.Number(name='Gemiddelde lengte patienten', value=gemiddelde_lengte, format='{value} m')
+indicator_lengte = pn.indicators.Number(name='Gemiddelde lengte patiënten', value=gemiddelde_lengte, format='{value} m')
 indicator_lengte_mannen = pn.indicators.Number(name='Gemiddelde lengte mannen', value=gemiddelde_lengte_mannen, format='{value} m')
 indicator_lengte_vrouwen = pn.indicators.Number(name='Gemiddelde lengte vrouwen', value=gemiddelde_lengte_vrouwen, format='{value} m')
 
@@ -181,14 +210,14 @@ apache_mannen = pn.indicators.LinearGauge(name='Gem. apache IV score mannen', va
 apache_vrouwen = pn.indicators.LinearGauge(name='Gem. apache IV score vrouwen', value=gemiddelde_apache_vrouwen, bounds=(0, 100), format='{value} %', colors=[(0.25, 'green'), (0.60, 'gold'), (1, 'red')], show_boundaries=True)
 
 # Gauge widget voor BMI
-bmi = pn.indicators.Gauge(name='BMI patienten', value=gemiddelde_bmi_patienten, bounds=(10, 45), format='{value}', colors=[(0.265, '#000386'), (0.45, '#009800'), (0.56, '#ffcf00'), (0.72, '#fa7c00'), (1, '#e00000')])
+bmi = pn.indicators.Gauge(name='BMI patiënten', value=gemiddelde_bmi_patienten, bounds=(10, 45), format='{value}', colors=[(0.265, '#000386'), (0.45, '#009800'), (0.56, '#ffcf00'), (0.72, '#fa7c00'), (1, '#e00000')])
 bmi_mannen = pn.indicators.Gauge(name='BMI mannen', value=gemiddelde_bmi_mannen, bounds=(10, 45), format='{value}', colors=[(0.265, '#000386'), (0.45, '#009800'), (0.56, '#ffcf00'), (0.72, '#fa7c00'), (1, '#e00000')])
 bmi_vrouwen = pn.indicators.Gauge(name='BMI vrouwen', value=gemiddelde_bmi_vrouwen, bounds=(10, 45), format='{value}', colors=[(0.265, '#000386'), (0.45, '#009800'), (0.56, '#ffcf00'), (0.72, '#fa7c00'), (1, '#e00000')])
 
 
 ########################################################### FUNCTIES #######################################################################
 
-# pie chart geslacht patienten
+# pie chart geslacht patiënten
 def generate_pie_chart(aantal_mannen, aantal_vrouwen):
     """
     Genereert een taartdiagram voor de verdeling van mannen en vrouwen op de IC.
@@ -209,9 +238,10 @@ def generate_pie_chart(aantal_mannen, aantal_vrouwen):
     data['color'] = ['#00003b', '#f7003b']
 
     # figuur
-    p = figure(height=350, title="Verdeling mannen & vrouwen op IC", toolbar_location=None,
+    p = figure(height=300, width=300, title="Verdeling mannen & vrouwen op IC", toolbar_location=None,
                tools="hover", tooltips="@category: @value", x_range=(-0.5, 1.0),
                background_fill_color="rgba(0, 0, 0, 0)", border_fill_color="rgba(0, 0, 0, 0)")
+    p.title.text_color = "white"
 
     # Plot
     source = ColumnDataSource(data)
@@ -252,14 +282,14 @@ def generate_plot_gewicht(gemiddelde_gewicht, gemiddeld_gewicht_mannen, gemiddel
 
     color_mapper = factor_cmap(field_name='categorie', palette=fill_colors, factors=categories)
 
-    p = figure(x_range=categories, height=350, title='Gemiddeld gewicht (KG)',
-           toolbar_location=None, tools='', background_fill_color='rgba(0, 0, 0, 0)')
+    p = figure(x_range=categories, height=400, width=400, title='Gemiddeld gewicht (KG) patiënten',
+           toolbar_location=None, tools="", background_fill_color='rgba(0, 0, 0, 0)')
 
     bars = p.vbar(x='categorie', top='gewicht', width=0.9, source=source, line_color="rgba(0, 0, 0, 0)", fill_color=color_mapper)
 
-    p.xgrid.grid_line_color = None
+    p.xgrid.grid_line_color = "black"
     p.y_range.start = 0
-    p.xaxis.major_label_orientation = 1.2
+    p.xaxis.major_label_orientation = 0.5
     p.title.text_color = 'white'
     p.xaxis.axis_label_text_color = 'rgba(0, 0, 0, 0)'
     p.yaxis.axis_label_text_color = 'rgba(0, 0, 0, 0)'
@@ -305,12 +335,14 @@ def bmi_scatterplot(gender_bmi='Beiden'):
 
     p = figure(
         title="BMI vs. Apache IV Score",
+        height=350,
+        width=350,
         x_axis_label="BMI",
         y_axis_label="Apache IV Score",
         tools=[hover, 'pan', 'wheel_zoom', 'reset']
     )
 
-    scatter = p.scatter(x='BMI', y='APACHE_IV_SCORE', size=10, alpha=0.6, color='KLEUR', legend_field='GESLACHT', source=source)
+    scatter = p.scatter(x='BMI', y='APACHE_IV_SCORE', size=5, alpha=0.6, color='KLEUR', legend_field='GESLACHT', source=source)
 
     # legenda
     p.legend.click_policy = "hide"
@@ -325,21 +357,86 @@ gender_dropdown = pn.widgets.Select(name='Selecteer geslacht', options=['Beiden'
 bmi_scatterplot_dynamic = pn.interact(bmi_scatterplot, gender_bmi=gender_dropdown)
 
 
-# GridSpec voor layout
-grid = pn.GridSpec(sizing_mode='stretch_both', max_width=900)
-gridbox = pn.GridBox(
-    pn.pane.Markdown("## COVID-19 Data", styles={"color": "white", "font-size": "24px", "margin-bottom": "5px", "background": "#91C4E8"}),
-    pn.pane.Markdown("In deze dashboard staan patient- en meetgegevens van COVID-19 patienten op de IC.", styles={"color": "black", "font-size": "16px", "margin-bottom": "5px", "background": "#91C4E8"}),
-    pie_chart,
-    indicator_aantal_mannen, indicator_aantal_vrouwen,
-    indicator_leeftijd, indicator_leeftijd_mannen, indicator_leeftijd_vrouwen,
-    gewicht_plot,
-    indicator_gewicht, indicator_gewicht_mannen, indicator_gewicht_vrouwen,
-    apache, apache_mannen, apache_vrouwen,
-    bmi, bmi_mannen, bmi_vrouwen,
-    bmi_scatterplot_dynamic,
-    background="#D6F2FA",
-    ncols=3, 
+################################################### LAY-OUT ########################################################
+
+# maken tabopties voor de sidebar
+sidebar_tabs = pn.Tabs(('WELKOM!', 'In deze dashboard staan patiënt- en meetgegevens van COVID-19 patiënten op de IC. Klik op de tabbladan om de eem visuele weergave van de datasets te zien.'), dynamic=True)
+
+# tab met algemene info
+algemene_data_tab = pn.Column(
+    "# ALGEMENE DATA ", 
+    pn.Row(
+        pie_chart,
+        indicator_aantal_mannen, indicator_aantal_vrouwen,
+        )
 )
 
-gridbox.show()
+# tab met leeftijd info
+leeftijd_tab = pn.Column(
+    "# LEEFTIJD ",
+    pn.GridBox(
+        indicator_leeftijd, indicator_leeftijd_mannen, indicator_leeftijd_vrouwen,
+        ncols=3)
+)
+
+# tab met gewicht info
+gewicht_tab = pn.Column(
+    "# GEWICHT ",
+    pn.Column(
+        gewicht_plot
+        )
+)
+
+# tab met bmi info
+bmi_tab = pn.Column(
+    "# BMI ",
+    pn.pane.Markdown("BMI, of Body Mass Index, is een numerieke meting die het gewicht van een persoon relateert aan zijn of haar lengte. Het wordt vaak gebruikt als een snelle beoordelingsmethode voor een gezond gewicht. De BMI wordt berekend door het gewicht in kilogram te delen door het kwadraat van de lengte in meters, wat resulteert in een classificatie van ondergewicht, normaal gewicht, overgewicht of obesitas."),
+    pn.GridBox(pn.pane.Markdown("BLAUW : ONDERGEWICHT ", style={"color": "#0051ff"}),
+               pn.pane.Markdown("GROEN : NORMAAL GEWICHT", style={"color": "#4dff00"}),
+               pn.pane.Markdown("GEEL : OVERGEWICHT", style={"color": "#ffe100"}),
+               pn.pane.Markdown("ORANJE : RICHTING OBESITAS", style={"color": "#ff9100"}),
+               pn.pane.Markdown("ROOD: OBESITAS", style={"color": "#ff0000"}),
+               ncols=5),
+    pn.GridBox(bmi, bmi_mannen, bmi_vrouwen,
+    ncols=3)
+)
+
+# tab met apache IV score info
+apache_tab = pn.Column(
+    "# APACHE IV SCORE ",
+    pn.GridBox(pn.pane.Markdown("GROEN: GEEN GEVAAR", style={"color": "#4dff00"}),
+               pn.pane.Markdown("GEEL: RISKANT", style={"color": "#ffe100"}),
+               pn.pane.Markdown("ROOD: GEVAAR", style={"color": "#ff0000"}),
+               apache, apache_mannen, apache_vrouwen,
+               ncols=3)
+)
+
+# tab met bmi vs apache IV score scatterplot
+bmi_apache_tab = pn.Column(
+    "# BMI vs APACHE IV SCORE",
+    pn.Row(bmi_scatterplot_dynamic)
+)
+
+
+# bootstrap template met tabopties maken
+template = pn.template.BootstrapTemplate(
+    title='COVID-19 DATA',
+    theme=DarkTheme,
+    sidebar=[sidebar_tabs],  
+    main=[
+        pn.Tabs(
+            ("ALGEMENE DATA", algemene_data_tab),
+            ("LEEFTIJD", leeftijd_tab),
+            ("GEWICHT", gewicht_tab),
+            ("BMI", bmi_tab),
+            ("APACHE IV SCORE", apache_tab),
+            ("BMI vs APACHE IV SCORE", bmi_apache_tab),
+        )
+    ],  
+    sidebar_width=300,  # breedte van de sidebar
+    header_color='black',  # kleur van header
+)
+
+
+# toon template
+template.show()
