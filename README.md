@@ -48,6 +48,7 @@ Run de applicatie, als het goed is wordt u direct naar de dashboard gebracht.
 ![screenshot applicatie](app2.png)
 ![screenshot applicatie](app3.png)
 ![screenshot applicatie](app4.png)
+![screenshot applicatie](app5.png)
 
 #
 ### Dashboard interactie:
